@@ -90,6 +90,17 @@ dependencies {
 
     // system ui controller
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+
+    //coil - load image from url
+    implementation "io.coil-kt:coil-compose:2.0.0-rc01"
+
+    //swipe refresh
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.27.0"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
 
 // allow reference to generated code
