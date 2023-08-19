@@ -1,5 +1,11 @@
 package ir.codroid.batmanmovies.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import ir.codroid.batmanmovies.util.Constants.TABLE_MOVIE_DETAIL
+
+
+@Entity(tableName = TABLE_MOVIE_DETAIL)
 data class MovieDetail(
     val actors: String,
     val awards: String,
@@ -23,6 +29,7 @@ data class MovieDetail(
     val website: String,
     val writer: String,
     val year: String,
+    @PrimaryKey(autoGenerate = false)
     val imdbID: String,
     val imdbRating: String,
     val imdbVotes: String
