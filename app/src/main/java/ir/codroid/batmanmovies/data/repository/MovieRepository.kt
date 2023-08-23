@@ -3,8 +3,8 @@ package ir.codroid.batmanmovies.data.repository
 import dagger.hilt.android.scopes.ViewModelScoped
 import ir.codroid.batmanmovies.data.dao.MovieDao
 import ir.codroid.batmanmovies.data.dao.MovieDetailDao
+import ir.codroid.batmanmovies.data.model.Movie
 import ir.codroid.batmanmovies.data.model.MovieDetail
-import ir.codroid.batmanmovies.data.model.Movies
 import ir.codroid.batmanmovies.data.remote.ApiService
 import ir.codroid.batmanmovies.data.remote.BaseApiResponse
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
@@ -18,7 +18,7 @@ class MovieRepository
     private val movieDetailDao: MovieDetailDao
 ) : BaseApiResponse() {
 
-    suspend fun getMovieListRemote(): NetWorkResult<Movies> =
+    suspend fun getMovieListRemote(): NetWorkResult<List<Movie>> =
         safeApiCall {
             apiService.getMovieList()
         }
@@ -29,7 +29,7 @@ class MovieRepository
         }
 
     suspend fun getMovieListLocal() = movieDao.getMovieList()
-    suspend fun insertMovieListLocal(movies: List<Movies.Movie>) = movieDao.insertMovies(movies)
+    suspend fun insertMovieListLocal(movies: List<Movie>) = movieDao.insertMovies(movies)
 
     suspend fun getMovieDetailLocal(imdbID: Int) = movieDetailDao.getMovie(imdbID)
     suspend fun insertMovieDetailLocal(movieDetail: MovieDetail) =

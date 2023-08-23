@@ -6,8 +6,8 @@ object Constants {
     const val BATMAN_MOVIES_DATABASE = "batman_movies_database"
 
 
-    const val BASE_URL = "https://www.omdbapi.com/?apikey=3e974fca&s="
-    const val TIMEOUT_IN_SECOND = 60L
+    const val BASE_URL = "https://www.omdbapi.com/"
+    const val TIMEOUT_IN_SECOND = 10L
 
     const val MOVIE_DETAIL_ARGUMENT_KEY = "imdbId"
     const val MOVIE_LIST_SCREEN = "movie_list"

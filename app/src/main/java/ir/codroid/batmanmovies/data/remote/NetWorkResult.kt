@@ -1,16 +1,16 @@
 package ir.codroid.batmanmovies.data.remote
 
-import ir.codroid.batmanmovies.data.model.Movies
-
 sealed class NetWorkResult<T>(
     val data: T? = null,
-    val totalResults: String? = null
+    val response: Boolean? = null,
+    val totalResults: Int? = null,
+    val error: String? =null
 ) {
-    class Success<T>(data: T, totalResults: String) :
-        NetWorkResult<T>(data, totalResults)
+    class Success<T>(data: T) :
+        NetWorkResult<T>(data = data,)
 
-    class Error<T>(data: T? = null, errorMessage: String) :
-        NetWorkResult<T>(data)
+    class Error<T>(response : Boolean, error: String) :
+        NetWorkResult<T>(response = response , error = error)
 
     class Loading<T>() : NetWorkResult<T>()
 }
