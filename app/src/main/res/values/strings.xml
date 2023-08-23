@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Batman Movies</string>
+    <string name="git_hub">Git hub</string>
+    <string name="linked_in">Linked In</string>
+    <string name="language">Language</string>
+    <string name="poster">Poster</string>
+    <string name="trends">Trends</string>
 </resources>

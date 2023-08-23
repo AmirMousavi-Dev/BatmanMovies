@@ -3,17 +3,15 @@ package ir.codroid.batmanmovies.ui.component
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,25 +21,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import ir.codroid.batmanmovies.R
 import ir.codroid.batmanmovies.data.model.Movie
+import ir.codroid.batmanmovies.ui.theme.exoExtraBold
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.yield
 import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
@@ -58,7 +59,7 @@ fun ViewPagerSlider(
         while (true) {
             delay(3000)
             var newPosition = pagerState.currentPage + 1
-            if (newPosition > movieList.size -1)
+            if (newPosition > movieList.size - 1)
                 newPosition = 0
             pagerState.animateScrollToPage(
                 page = (newPosition),
@@ -66,95 +67,93 @@ fun ViewPagerSlider(
             )
         }
     }
-    Column(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .height(50.dp)
-                .fillMaxWidth()
-                .background(Color.Cyan),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "View Pager Image",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+    Box(contentAlignment = Alignment.BottomCenter) {
+        Column {
+            TitleText(
+                R.string.poster,
+                Modifier.padding(vertical = 8.dp , horizontal = 16.dp)
             )
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .weight(1f)
-                .padding(0.dp, 40.dp, 0.dp, 40.dp)
-        ) { page ->
-            Card(modifier = Modifier
-                .graphicsLayer {
-                    val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-                    lerp(
-                        start = 0.85f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f),
-                    ).also { scale ->
-                        scaleX = scale
-                        scaleY = scale
-                    }
-                    alpha = lerp(
-                        start = 0.5f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    )
-                }
-                .fillMaxWidth()
-                .padding(25.dp, 0.dp, 25.dp, 0.dp),
-                shape = RoundedCornerShape(20.dp)) {
 
-                val newMovie = movieList[page]
-                imageUrl = newMovie.Poster
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.LightGray)
-                        .align(Alignment.Center)
-                ) {
-                    val painter = rememberAsyncImagePainter(
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(data = imageUrl)
-                            .apply(
-                                block = fun ImageRequest.Builder.() {
-                                    scale(Scale.FILL)
-                                }
-                            )
-                            .build()
-                    )
-                    Image(
-                        painter = painter, contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(15.dp)
-                    ) {
-                        Text(
-                            text = newMovie.Title,
-                            style = MaterialTheme.typography.h5,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(380.dp)
+                    .padding(0.dp, 16.dp, 0.dp, 16.dp)
+            ) { page ->
+                Card(modifier = Modifier
+                    .graphicsLayer {
+                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                        lerp(
+                            start = 0.85f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f),
+                        ).also { scale ->
+                            scaleX = scale
+                            scaleY = scale
+                        }
+                        alpha = lerp(
+                            start = 0.5f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
                     }
+                    .fillMaxWidth(0.7f)
+                    .padding(),
+                    shape = RoundedCornerShape(20.dp)) {
+
+                    val newMovie = movieList[page]
+                    imageUrl = newMovie.Poster
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.LightGray)
+                            .align(Alignment.Center)
+                    ) {
+                        val painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(LocalContext.current)
+                                .data(data = imageUrl)
+                                .apply(
+                                    block = fun ImageRequest.Builder.() {
+                                        scale(Scale.FILL)
+                                    }
+                                )
+                                .build()
+                        )
+                        Image(
+                            painter = painter, contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    Brush.verticalGradient(
+                                        listOf(Color.Transparent, Color.Black)
+                                    )
+                                )
+                        )
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .padding(15.dp)
+                        ) {
+                            Text(
+                                text = newMovie.Title,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+
+                        }
+
+                    }
                 }
+
             }
-
         }
-
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(16.dp)
-        )
     }
 }
