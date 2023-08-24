@@ -1,5 +1,6 @@
 package ir.codroid.batmanmovies.ui.screen.list
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
@@ -18,35 +19,48 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import ir.codroid.batmanmovies.R
+import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.ui.theme.MediumGray
 import ir.codroid.batmanmovies.ui.theme.backgroundColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListTopAppbar(
+    navController: NavHostController,
     onGitHub: () -> Unit,
     onLinedIn: () -> Unit,
     onLanguage: () -> Unit,
 ) {
-    TopAppBar(
-        navigationIcon = {} ,
-        title = {
+    val topBarScreen = listOf(
+        Screen.MovieList,
+        Screen.Favorite
+    )
+    val backStackEntry = navController.currentBackStackEntryAsState()
+    val showTopBar =
+        backStackEntry.value?.destination?.route in topBarScreen.map { it.route }
+    if (showTopBar){
+        TopAppBar(
+            navigationIcon = {} ,
+            title = {
                 Text(
-                    text = stringResource(id = R.string.app_name) ,
+                    text = stringResource(R.string.app_name) ,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
-        },
-        actions = {
-            MenuAction(onGitHub = onGitHub, onLinedIn = onLinedIn , onLanguage = onLanguage)
-        } ,
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.backgroundColor,
-            titleContentColor = MediumGray,
-            actionIconContentColor = MediumGray,
+            },
+            actions = {
+                MenuAction(onGitHub = onGitHub, onLinedIn = onLinedIn , onLanguage = onLanguage)
+            } ,
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.backgroundColor,
+                titleContentColor = MediumGray,
+                actionIconContentColor = MediumGray,
+            )
         )
-    )
+    }
 }
 
 @Composable

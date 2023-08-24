@@ -11,6 +11,7 @@ object Constants {
 
     const val MOVIE_DETAIL_ARGUMENT_KEY = "imdbId"
     const val MOVIE_LIST_SCREEN = "movie_list"
+    const val FAVORITE_SCREEN = "favorite"
     const val MOVIE_DETAIL_SCREEN = "movie_detail/{$MOVIE_DETAIL_ARGUMENT_KEY}"
     const val SPLASH_SCREEN = "splash"
     const val SPLASH_SCREEN_DELAY = 3000L

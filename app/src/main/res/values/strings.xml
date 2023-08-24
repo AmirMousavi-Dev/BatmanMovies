@@ -5,4 +5,6 @@
     <string name="language">Language</string>
     <string name="poster">Poster</string>
     <string name="trends">Trends</string>
+    <string name="movie_list_title">Batman Movies</string>
+    <string name="favorite_title">Favorite Movies</string>
 </resources>

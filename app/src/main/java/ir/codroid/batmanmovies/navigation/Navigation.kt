@@ -27,6 +27,9 @@ fun SetupNavigation(
         composable(route = Screen.MovieList.route) {
             MovieListScreen(navController)
         }
+        composable(route = Screen.Favorite  .route) {
+            MovieListScreen(navController)
+        }
 
         composable(route = Screen.MovieDetail.route) {
             MovieDetailScreen(navController)

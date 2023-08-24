@@ -19,19 +19,37 @@ val MediumGray = Color(0xFF8F8F8F)
 val DarkGray = Color(0xFF141414)
 
 val lightBackgroundColor = Color(0xFFFDFDFD)
-val darkBackgroundColor = Color(0xFF161616)
+val darkBackgroundColor = Color(0xFFD6D6D6)
 
 val lightTextColor = Color(0xFF16205F)
 val darkTextColor = Color(0xFFE4E4E4)
 
-// region Top Appbar Color
+val lightBottomBar = Color(0xFF9575CD)
+val darkBottomBar = Color(0xFF5E35B1)
+val itemBottomBarSelected = Color(0xFFFFFFFF)
+val itemBottomBarDeSelected = Color(0xFFD5D5D5)
+
+// region Background Color
 val ColorScheme.backgroundColor: Color
     @Composable
     get() = if (isSystemInDarkTheme()) darkBackgroundColor else lightBackgroundColor
 val ColorScheme.textColor: Color
     @Composable
     get() = if (isSystemInDarkTheme()) darkTextColor else lightTextColor
-// endregion Top Appbar Color
+// endregion Background Color
+
+// region BottomBar Color
+val ColorScheme.bottomBarColor: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) darkBottomBar else lightBottomBar
+val ColorScheme.bottomBarSelectedItemColor: Color
+    @Composable
+    get() =  itemBottomBarSelected
+
+val ColorScheme.bottomBarDeSelectedItemColor: Color
+    @Composable
+    get() =  itemBottomBarDeSelected
+// endregion BottomBar Color
 
 // region List Item  Color
 val ColorScheme.listItemBackgroundColor: Color
