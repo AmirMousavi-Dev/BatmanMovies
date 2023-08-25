@@ -8,5 +8,5 @@ enum class BottomNavItem(
     @DrawableRes val icon: Int
 ) {
     MovieList(Screen.MovieList.route, R.drawable.ic_home),
-    Favorite(Screen.Favorite.route, R.drawable.ic_favorite)
+    Favorite(Screen.AboutBatman.route, R.drawable.ic_batman)
 }

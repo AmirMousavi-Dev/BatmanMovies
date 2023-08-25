@@ -2,9 +2,11 @@
     <string name="app_name">Batman Movies</string>
     <string name="git_hub">Git hub</string>
     <string name="linked_in">Linked In</string>
-    <string name="language">Language: %1$s</string>
+    <string name="language_menu">Language</string>
     <string name="poster">Poster</string>
     <string name="trends">Trends</string>
+    <string name="twenty_one_st_century">21st century</string>
+    <string name="action">Action</string>
     <string name="movie_list_title">Batman Movies</string>
     <string name="favorite_title">Favorite Movies</string>
     <string name="director">Director: %1$s</string>
@@ -15,5 +17,20 @@
     <string name="country">Country: %1$s</string>
     <string name="awards">Awards: %1$s</string>
     <string name="year">Year: %1$s</string>
+    <string name="language">Language: %1$s</string>
+    <string name="batman_name">Bruce Wayne</string>
+    <string name="enemies">Enemies</string>
+    <string name="enemies_desc">Batman faces a variety of foes ranging from common criminals to outlandish supervillains. Many of them mirror aspects of the Batmans character and development, often having tragic origin stories that lead them to a life of crime. These foes are commonly referred to as Batmans rogues gallery. Batmans most implacable foe are : Joker
+    Penguin ,Ras al Ghul, Two-Face, the Riddler , the Scarecrow, Mr.Freeze</string>
+    <string name="allies">Allies</string>
+    <string name="alfred">Alfred</string>
+    <string name="batman_family">Batman family</string>
+    <string name="justice_league">Justice League</string>
+    <string name="robin">Robin</string>
+    <string name="family_tree">Family tree</string>
+    <string name="family_tree_desc">Helena Wayne is the biological daughter of Bruce Wayne and Selina Kyle of an alternate universe established in the early 1960s (Multiverse) where the Golden Age stories took place. Damian Wayne is the biological son of Bruce Wayne and Talia al Ghul,and thus the grandson of Ras al Ghul. Terry McGinnis and his brother Matt are the biological sons of Bruce Wayne and Mary McGinnis in the DC animated universe, and Terry has taken over the role as Batman when Bruce has become too old to do so.</string>
+    <string name="batman_bio">
+Batmans secret identity is Bruce Wayne, a wealthy American industrialist. As a child, Bruce witnessed the murder of his parents, Dr. Thomas Wayne and Martha Wayne, which ultimately led him to craft the Batman persona and seek justice against criminals.     </string>
+
 
 </resources>

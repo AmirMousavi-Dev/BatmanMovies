@@ -1,12 +1,9 @@
 package ir.codroid.batmanmovies.ui.screen.detail
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.widget.Toast
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +33,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,12 +48,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -63,13 +61,14 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
-import ir.codroid.batmanmovies.R
 import ir.codroid.batmanmovies.data.model.Movie
 import ir.codroid.batmanmovies.data.model.MovieDetail
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
+import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.ui.SharedViewModel
+import ir.codroid.batmanmovies.ui.component.LoadingCircle
+import ir.codroid.batmanmovies.ui.theme.LightGray
 import ir.codroid.batmanmovies.ui.theme.MediumGray
-import ir.codroid.batmanmovies.ui.theme.exoExtraBold
 import ir.codroid.batmanmovies.ui.theme.primaryColor
 import ir.codroid.batmanmovies.ui.theme.textColor
 import kotlin.math.max
@@ -83,20 +82,58 @@ fun MovieDetailScreen(
 ) {
     LaunchedEffect(true) {
         viewModel.getMovieDetail(imdbID)
+        viewModel.getSimilarMovie()
+    }
+    var loading by remember {
+        mutableStateOf(true)
     }
     val result = viewModel._movieDetail.collectAsState()
+    val similarMovies = viewModel.similarMovie.collectAsState()
     val movie = result.value.data
     val scrollState = rememberLazyListState()
-    result.value.let {
-    if (result.value is NetWorkResult.Success){
-        movie?.let {
 
-        Box {
-            MovieDetailContent(scrollState, movieDetail = it)
-            MovieDetailParallaxToolBar(scrollState, movieDetail = it)
+    result.value.let {
+        when (result.value) {
+            is NetWorkResult.Loading -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    LoadingCircle(isSystemInDarkTheme(), loading)
+                }
+            }
+
+            is NetWorkResult.Success -> {
+                movie?.let {
+                    var isFavorite by remember {
+                        mutableStateOf(false)
+                    }
+                    Box {
+                        MovieDetailContent(
+                            scrollState,
+                            movieDetail = it,
+                            similarMovies.value
+                        )  {
+                            navController.navigate(Screen.MovieDetail.withArgs(it))
+                        }
+                        MovieDetailParallaxToolBar(
+                            scrollState,
+                            movieDetail = it,
+                            onBackClick = { navController.popBackStack() },
+                            isFavorite = isFavorite
+                        ) {
+                            isFavorite = !isFavorite
+
+                        }
+                    }
+                }
+                loading = false
+            }
+
+            is NetWorkResult.Error -> {}
         }
-        }
-    }
 
     }
 
@@ -106,7 +143,9 @@ fun MovieDetailScreen(
 @Composable
 fun MovieDetailContent(
     scrollState: LazyListState,
-    movieDetail: MovieDetail
+    movieDetail: MovieDetail,
+    similarMovies: List<Movie>,
+    onSimilarItemClick : (String) ->Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(top = appBarExpandHeight),
@@ -124,50 +163,9 @@ fun MovieDetailContent(
                 )
                 MoreInfo(movieDetail)
 
-                SimilarMovie(
-                    listOf(
-                        Movie(
-                            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-                            "batman",
-                            "movie",
-                            "2002",
-                            "48"
-
-                        ),
-                        Movie(
-                            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-                            "batman",
-                            "movie",
-                            "2002",
-                            "48"
-
-                        ),
-                        Movie(
-                            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-                            "batman",
-                            "movie",
-                            "2002",
-                            "48"
-
-                        ),
-                        Movie(
-                            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-                            "batman",
-                            "movie",
-                            "2002",
-                            "48"
-
-                        ),
-                        Movie(
-                            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-                            "batman",
-                            "movie",
-                            "2002",
-                            "48"
-
-                        )
-                    )
-                )
+                SimilarMovie(similarMovies){
+                    onSimilarItemClick(it)
+                }
 
 
             }
@@ -182,7 +180,10 @@ val appBarExpandHeight = 500.dp
 @Composable
 fun MovieDetailParallaxToolBar(
     scrollState: LazyListState,
-    movieDetail: MovieDetail
+    movieDetail: MovieDetail,
+    isFavorite: Boolean,
+    onBackClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
 ) {
     val imageHeight = appBarExpandHeight - appBarCollapseHeight
     val maxOffset = with(LocalDensity.current) {
@@ -228,7 +229,7 @@ fun MovieDetailParallaxToolBar(
                             Brush.verticalGradient(
                                 colorStops = arrayOf(
                                     Pair(0.4f, Color.Transparent),
-                                    Pair(1f, Color.White)
+                                    Pair(1f, MaterialTheme.colorScheme.surface)
                                 )
                             )
                         )
@@ -242,11 +243,12 @@ fun MovieDetailParallaxToolBar(
                     Text(
                         text = movieDetail.Type,
                         fontWeight = FontWeight.Medium,
+                        color = Color.White,
                         modifier = Modifier
                             .clip(
                                 RoundedCornerShape(4.dp)
                             )
-                            .background(MediumGray)
+                            .background(MaterialTheme.colorScheme.primaryColor)
                             .padding(horizontal = 16.dp, vertical = 8.dp),
 
                         )
@@ -255,13 +257,15 @@ fun MovieDetailParallaxToolBar(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(appBarCollapseHeight),
+                    .height(appBarCollapseHeight)
+                    .background(MaterialTheme.colorScheme.surface),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = movieDetail.Title,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.textColor,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -284,8 +288,15 @@ fun MovieDetailParallaxToolBar(
             .height(appBarCollapseHeight)
             .padding(horizontal = 16.dp)
     ) {
-        CircularButton(icon = Icons.Default.ArrowBack)
-        CircularButton(icon = Icons.Default.Favorite)
+        CircularButton(icon = Icons.Default.ArrowBack) {
+            onBackClick()
+        }
+        CircularButton(
+            icon = Icons.Default.Favorite,
+            contentColor = if (isFavorite) Color.Red else Color.Gray
+        ) {
+            onFavoriteClick()
+        }
     }
 }
 
@@ -296,10 +307,10 @@ fun CircularButton(
     backgroundColor: Color = Color.White,
     size: Dp = 38.dp,
     elevation: ButtonElevation? = ButtonDefaults.elevation(),
-    onClick: () -> Unit = {}
+    onClick: () -> Unit
 ) {
     Button(
-        onClick = onClick,
+        onClick = { onClick() },
         contentPadding = PaddingValues(),
         shape = RoundedCornerShape(4.dp),
         colors = ButtonDefaults.buttonColors(

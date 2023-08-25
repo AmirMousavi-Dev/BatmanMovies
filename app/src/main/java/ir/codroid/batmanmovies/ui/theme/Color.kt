@@ -56,15 +56,6 @@ val ColorScheme.bottomBarDeSelectedItemColor: Color
     get() = itemBottomBarDeSelected
 // endregion BottomBar Color
 
-// region List Item  Color
-val ColorScheme.listItemBackgroundColor: Color
-    @Composable
-    get() = if (isSystemInDarkTheme()) DarkGray else Color.White
-val ColorScheme.listItemTextColor: Color
-    @Composable
-    get() = if (isSystemInDarkTheme()) LightGray else DarkGray
-// endregion List Item Background Color
-
 val ColorScheme.splashBGColor: Color
     @Composable
-    get() = if (isSystemInDarkTheme()) DarkGray else Color.White
+    get() = if (isSystemInDarkTheme()) MediumGray else Color.White

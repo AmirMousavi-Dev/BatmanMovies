@@ -28,8 +28,8 @@ fun MovieListContent(
             item {
                 ViewPagerSlider(movieList = list){imdbID -> onMovieClick(imdbID)}
                 HorizontalMovieList(R.string.trends, list = list){imdbID -> onMovieClick(imdbID)}
-                HorizontalMovieList(R.string.trends, list = list.shuffled()){imdbID -> onMovieClick(imdbID)}
-                HorizontalMovieList(R.string.trends, list = list.shuffled()){imdbID -> onMovieClick(imdbID)}
+                HorizontalMovieList(R.string.action, list = list.asReversed()){imdbID -> onMovieClick(imdbID)}
+                HorizontalMovieList(R.string.twenty_one_st_century, list = list.filter { it.Year.contains("20") }){imdbID -> onMovieClick(imdbID)}
             }
         })
 }

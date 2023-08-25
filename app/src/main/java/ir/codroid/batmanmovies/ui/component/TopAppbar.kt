@@ -1,6 +1,5 @@
-package ir.codroid.batmanmovies.ui.screen.list
+package ir.codroid.batmanmovies.ui.component
 
-import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
@@ -24,38 +23,35 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import ir.codroid.batmanmovies.R
 import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.ui.theme.MediumGray
-import ir.codroid.batmanmovies.ui.theme.backgroundColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListTopAppbar(
+fun TopAppbar(
     navController: NavHostController,
     onGitHub: () -> Unit,
     onLinedIn: () -> Unit,
-    onLanguage: () -> Unit,
 ) {
     val topBarScreen = listOf(
         Screen.MovieList,
-        Screen.Favorite
+        Screen.AboutBatman
     )
     val backStackEntry = navController.currentBackStackEntryAsState()
     val showTopBar =
         backStackEntry.value?.destination?.route in topBarScreen.map { it.route }
-    if (showTopBar){
+    if (showTopBar) {
         TopAppBar(
-            navigationIcon = {} ,
+            navigationIcon = {},
             title = {
                 Text(
-                    text = stringResource(R.string.app_name) ,
+                    text = stringResource(R.string.app_name),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
             },
             actions = {
-                MenuAction(onGitHub = onGitHub, onLinedIn = onLinedIn , onLanguage = onLanguage)
-            } ,
+                MenuAction(onGitHub = onGitHub, onLinedIn = onLinedIn)
+            },
             colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.backgroundColor,
                 titleContentColor = MediumGray,
                 actionIconContentColor = MediumGray,
             )
@@ -66,8 +62,7 @@ fun ListTopAppbar(
 @Composable
 fun MenuAction(
     onGitHub: () -> Unit,
-    onLinedIn: () -> Unit,
-    onLanguage: () -> Unit,
+    onLinedIn: () -> Unit
 ) {
 
     var expanded by remember {
@@ -106,20 +101,6 @@ fun MenuAction(
             },
             onClick = {
                 onLinedIn()
-                expanded = false
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(
-                    text = stringResource(id = R.string.language),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-
-            },
-            onClick = {
-                onLanguage()
                 expanded = false
             }
         )

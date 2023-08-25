@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import ir.codroid.batmanmovies.R
 import ir.codroid.batmanmovies.data.model.MovieDetail
 import ir.codroid.batmanmovies.ui.theme.primaryColor
+import ir.codroid.batmanmovies.ui.theme.textColor
 
 
 @Composable
@@ -50,6 +51,6 @@ fun BasicInfoColumn(
             modifier = Modifier.size(36.dp),
             tint = MaterialTheme.colorScheme.primaryColor
         )
-        Text(text = rating.Value, fontWeight = FontWeight.Bold)
+        Text(text = rating.Value, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.textColor)
     }
 }

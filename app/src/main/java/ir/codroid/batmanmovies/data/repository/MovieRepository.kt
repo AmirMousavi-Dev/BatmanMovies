@@ -16,19 +16,15 @@ class MovieRepository
 @Inject constructor(
     private val apiService: ApiService,
     private val movieDao: MovieDao,
-    private val movieDetailDao: MovieDetailDao
+    private val movieDetailDao: MovieDetailDao,
 ) : BaseApiResponse() {
 
     suspend fun getMovieListRemote(): NetWorkResult<List<Movie>> =
         safeApiCall {
             apiService.getMovieList()
         }
-//
-//    suspend fun getMovieDetailRemote(imdbID: String): NetWorkResult<MovieDetail> =
-//        safeApiCall {
-//            apiService.getMovieDetail(i =imdbID)
-//        }
-    suspend fun getMovieDetailRemote(imdbID: String) :Response<MovieDetail> =
+
+    suspend fun getMovieDetailRemote(imdbID: String): Response<MovieDetail> =
         apiService.getMovieDetail(i = imdbID)
 
 

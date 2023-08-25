@@ -1,6 +1,5 @@
 package ir.codroid.batmanmovies.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +28,9 @@ class SharedViewModel
 
     val _movieDetail = MutableStateFlow<NetWorkResult<MovieDetail>>(NetWorkResult.Loading())
     val movieDetail = _movieDetail.asStateFlow()
+
+    private val _similarMovie = MutableStateFlow<List<Movie>>(emptyList())
+    val similarMovie = _similarMovie.asStateFlow()
 
     private var job: Job? = null
     fun getMovieList() {
@@ -86,6 +88,13 @@ class SharedViewModel
         }
     }
 
+    fun getSimilarMovie() {
+        viewModelScope.launch {
+            val movies = async { repository.getMovieListLocal() }
+            _similarMovie.emit(movies.await())
+        }
+    }
+
     private fun insertMovieList(movieList: List<Movie>) {
         job?.cancel()
         job = viewModelScope.launch {
@@ -93,11 +102,12 @@ class SharedViewModel
         }
     }
 
-    fun insertMovieDetail(movieDetail: MovieDetail) {
+    private fun insertMovieDetail(movieDetail: MovieDetail) {
         viewModelScope.launch {
             repository.insertMovieDetailLocal(movieDetail)
         }
     }
+
 
     override fun onCleared() {
         super.onCleared()

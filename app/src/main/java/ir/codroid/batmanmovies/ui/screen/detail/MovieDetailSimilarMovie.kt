@@ -3,6 +3,7 @@ package ir.codroid.batmanmovies.ui.screen.detail
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -61,17 +62,23 @@ fun SimilarMovieHeader() {
 
 
 @Composable
-fun SimilarMovie(movies: List<Movie>) {
+fun SimilarMovie(
+    movies: List<Movie>,
+    onSimilarItemClick : (String) ->Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         SimilarMovieHeader()
         movies.take(3).forEach { movie ->
-            SimilarMovieItem(movie)
+            SimilarMovieItem(movie){
+                onSimilarItemClick(it)
+            }
         }
     }
 }
 
 @Composable
-fun SimilarMovieItem(movie: Movie) {
+fun SimilarMovieItem(
+    movie: Movie,
+    onSimilarItemClick : (String) ->Unit) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
             .data(data = movie.Poster)
@@ -86,6 +93,7 @@ fun SimilarMovieItem(movie: Movie) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .clickable { onSimilarItemClick(movie.imdbID) }
     ) {
 
         Image(
