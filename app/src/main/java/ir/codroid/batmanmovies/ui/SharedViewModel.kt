@@ -56,17 +56,19 @@ class SharedViewModel
                 }
             if (!isMovieExist.await()) {
                 try {
-                    val movieDetailRemote = async {
-                        return@async repository.getMovieDetailRemote(imdbId)
-                    }
-                    if (movieDetailRemote.await().isSuccessful) {
-                        movieDetailRemote.await().body()?.let {
+                    val response = repository.getMovieDetailRemote(imdbId)
+
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        body?.let {
 
                             _movieDetail.emit(NetWorkResult.Success(it))
                             insertMovieDetail(it)
                         }
 
-                    }
+                    } else
+                    _movieDetail.emit(NetWorkResult.Error(false, "error"))
+
 
                 } catch (e: Exception) {
                     _movieDetail.emit(NetWorkResult.Error(false, e.message.toString()))

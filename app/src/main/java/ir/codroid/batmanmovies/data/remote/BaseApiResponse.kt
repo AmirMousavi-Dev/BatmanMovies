@@ -13,11 +13,8 @@ abstract class BaseApiResponse {
                 val response = apiCall()
                 if (response.isSuccessful) {
                     val body = response.body()
-                    Log.e("3121" , "null body")
                     body?.let {
-                    Log.e("3121" , "not null body")
                         return@withContext NetWorkResult.Success(data = body.Search)
-                    Log.e("3121" , "after returnd")
                     }
                 }
                 return@withContext error("code : ${response.code()} message : ${response.message()}" , false)
