@@ -14,5 +14,8 @@ interface MovieDetailDao {
     suspend fun insertMovieDetail(movieDetail: MovieDetail)
 
     @Query("SELECT * FROM $TABLE_MOVIE_DETAIL WHERE imdbID LIKE :imdbID")
-    suspend fun getMovie(imdbID: Int): MovieDetail
+    suspend fun getMovie(imdbID: String): MovieDetail
+
+    @Query("SELECT EXISTS(SELECT * FROM $TABLE_MOVIE_DETAIL WHERE imdbID = :imdbId)")
+    fun isMovieExist(imdbId : String) : Boolean
 }

@@ -16,7 +16,7 @@ class RatingTypeConverter {
     @TypeConverter
     fun convertToObject(json: String): List<MovieDetail.Rating>? {
         val gson = Gson()
-        return listOf(gson.fromJson(json, MovieDetail.Rating::class.java))
+        return gson.fromJson(json, Array<MovieDetail.Rating>::class.java).toList()
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,10 +46,12 @@ import ir.codroid.batmanmovies.ui.theme.exoExtraBold
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 
+@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalPagerApi
 @Composable
 fun ViewPagerSlider(
-    movieList: List<Movie>
+    movieList: List<Movie>,
+    onMovieClick :(String)->Unit
 ) {
     val pagerState = rememberPagerState(pageCount = movieList.size, initialPage = 2)
     var imageUrl by remember {
@@ -81,6 +84,7 @@ fun ViewPagerSlider(
                     .height(380.dp)
                     .padding(0.dp, 16.dp, 0.dp, 16.dp)
             ) { page ->
+                val newMovie = movieList[page]
                 Card(modifier = Modifier
                     .graphicsLayer {
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
@@ -100,9 +104,10 @@ fun ViewPagerSlider(
                     }
                     .fillMaxWidth(0.7f)
                     .padding(),
-                    shape = RoundedCornerShape(20.dp)) {
+                    shape = RoundedCornerShape(20.dp) ,
+                onClick = {onMovieClick(newMovie.imdbID)}) {
 
-                    val newMovie = movieList[page]
+
                     imageUrl = newMovie.Poster
                     Box(
                         modifier = Modifier

@@ -8,6 +8,7 @@ import ir.codroid.batmanmovies.data.model.MovieDetail
 import ir.codroid.batmanmovies.data.remote.ApiService
 import ir.codroid.batmanmovies.data.remote.BaseApiResponse
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
+import retrofit2.Response
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -22,16 +23,20 @@ class MovieRepository
         safeApiCall {
             apiService.getMovieList()
         }
+//
+//    suspend fun getMovieDetailRemote(imdbID: String): NetWorkResult<MovieDetail> =
+//        safeApiCall {
+//            apiService.getMovieDetail(i =imdbID)
+//        }
+    suspend fun getMovieDetailRemote(imdbID: String) :Response<MovieDetail> =
+        apiService.getMovieDetail(i = imdbID)
 
-    suspend fun getMovieDetailRemote(imdbID: Int): NetWorkResult<MovieDetail> =
-        safeApiCall {
-            apiService.getMovieDetail(imdbID)
-        }
 
     suspend fun getMovieListLocal() = movieDao.getMovieList()
     suspend fun insertMovieListLocal(movies: List<Movie>) = movieDao.insertMovies(movies)
 
-    suspend fun getMovieDetailLocal(imdbID: Int) = movieDetailDao.getMovie(imdbID)
+    suspend fun getMovieDetailLocal(imdbID: String) = movieDetailDao.getMovie(imdbID)
+    suspend fun isMovieExist(imdbID: String) = movieDetailDao.isMovieExist(imdbID)
     suspend fun insertMovieDetailLocal(movieDetail: MovieDetail) =
         movieDetailDao.insertMovieDetail(movieDetail)
 

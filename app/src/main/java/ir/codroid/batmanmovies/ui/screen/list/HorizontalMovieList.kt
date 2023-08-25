@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,7 +39,8 @@ import java.util.Random
 @Composable
 fun HorizontalMovieList(
     @StringRes title : Int,
-    list: List<Movie>) {
+    list: List<Movie>,
+    onMovieClick :(String) ->Unit) {
     Column(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)) {
         TitleText(
             text = title,
@@ -48,18 +50,21 @@ fun HorizontalMovieList(
             items(items = list , key = {
                 it.imdbID
             }) {
-                TrendsItem(movie = it)
+                TrendsItem(movie = it) {imdbID ->
+                    onMovieClick(imdbID)
+                }
             }
         }
     }
 }
 
 @Composable
-fun TrendsItem(movie: Movie) {
+fun TrendsItem(movie: Movie , onMovieClick :(String) ->Unit) {
     Column(
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .width(150.dp)
+            .clickable { onMovieClick(movie.imdbID) }
     ) {
         val painter = rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)

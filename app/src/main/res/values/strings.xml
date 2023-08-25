@@ -2,9 +2,18 @@
     <string name="app_name">Batman Movies</string>
     <string name="git_hub">Git hub</string>
     <string name="linked_in">Linked In</string>
-    <string name="language">Language</string>
+    <string name="language">Language: %1$s</string>
     <string name="poster">Poster</string>
     <string name="trends">Trends</string>
     <string name="movie_list_title">Batman Movies</string>
     <string name="favorite_title">Favorite Movies</string>
+    <string name="director">Director: %1$s</string>
+    <string name="writer">Writer: %1$s</string>
+    <string name="actors">Actors: %1$s</string>
+    <string name="rated">Rated: %1$s</string>
+    <string name="genre">Genre: %1$s</string>
+    <string name="country">Country: %1$s</string>
+    <string name="awards">Awards: %1$s</string>
+    <string name="year">Year: %1$s</string>
+
 </resources>

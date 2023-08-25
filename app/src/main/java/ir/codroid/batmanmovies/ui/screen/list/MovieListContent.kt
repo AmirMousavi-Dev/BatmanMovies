@@ -16,16 +16,20 @@ import ir.codroid.batmanmovies.ui.theme.backgroundColor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MovieListContent(list: List<Movie>) {
+fun MovieListContent(
+    list: List<Movie>,
+    onMovieClick: (String) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 64.dp),
         content = {
-        item {
-            ViewPagerSlider(movieList = list)
-            HorizontalMovieList(R.string.trends,list = list)
-            HorizontalMovieList(R.string.trends,list = list.shuffled())
-            HorizontalMovieList(R.string.trends,list = list.shuffled())
-        }
-    }) }
+            item {
+                ViewPagerSlider(movieList = list){imdbID -> onMovieClick(imdbID)}
+                HorizontalMovieList(R.string.trends, list = list){imdbID -> onMovieClick(imdbID)}
+                HorizontalMovieList(R.string.trends, list = list.shuffled()){imdbID -> onMovieClick(imdbID)}
+                HorizontalMovieList(R.string.trends, list = list.shuffled()){imdbID -> onMovieClick(imdbID)}
+            }
+        })
+}

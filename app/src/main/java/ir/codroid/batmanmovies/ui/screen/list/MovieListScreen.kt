@@ -39,6 +39,7 @@ import ir.codroid.batmanmovies.R
 import ir.codroid.batmanmovies.data.model.Movie
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
 import ir.codroid.batmanmovies.navigation.BottomNavigationBar
+import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.ui.SharedViewModel
 import ir.codroid.batmanmovies.ui.component.TitleText
 import ir.codroid.batmanmovies.ui.theme.MediumGray
@@ -64,20 +65,9 @@ fun MovieListScreen(
         is NetWorkResult.Loading -> {}
         is NetWorkResult.Success -> {
             movies?.let {
-                if (it.isEmpty()) {
-                    Toast.makeText(LocalContext.current, "empty", Toast.LENGTH_SHORT)
-                        .show()
-
-                } else {
-                    Toast.makeText(
-                        LocalContext.current,
-                        it[0].Title,
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-
+                MovieListContent(it){imdbID->
+                    navController.navigate(Screen.MovieDetail.withArgs(imdbID))
                 }
-                MovieListContent(it)
             }
 
         }

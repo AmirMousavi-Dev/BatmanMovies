@@ -17,8 +17,9 @@ interface ApiService {
         @Query("s") s :String = "batman" ,
     ): Response<ResponseResult<List<Movie>>>
 
-    @GET("{imdbID}")
+    @GET("/")
     suspend fun getMovieDetail(
-        @Path("imdbID") imdbID: Int
-    ): Response<ResponseResult<MovieDetail>>
+        @Query("apikey") apikey :String = "3e974fca" ,
+        @Query("i") i :String ,
+        ): Response<MovieDetail>
 }

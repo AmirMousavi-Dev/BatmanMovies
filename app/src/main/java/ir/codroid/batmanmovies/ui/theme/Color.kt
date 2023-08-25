@@ -2,7 +2,6 @@ package ir.codroid.batmanmovies.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -24,10 +23,16 @@ val darkBackgroundColor = Color(0xFFD6D6D6)
 val lightTextColor = Color(0xFF16205F)
 val darkTextColor = Color(0xFFE4E4E4)
 
-val lightBottomBar = Color(0xFF9575CD)
-val darkBottomBar = Color(0xFF5E35B1)
+val lightPrimary = Color(0xFF9575CD)
+val darkPrimary = Color(0xFF5E35B1)
 val itemBottomBarSelected = Color(0xFFFFFFFF)
 val itemBottomBarDeSelected = Color(0xFFD5D5D5)
+
+// region primary Color
+val ColorScheme.primaryColor: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) darkPrimary else lightPrimary
+// endregion primary Color
 
 // region Background Color
 val ColorScheme.backgroundColor: Color
@@ -41,14 +46,14 @@ val ColorScheme.textColor: Color
 // region BottomBar Color
 val ColorScheme.bottomBarColor: Color
     @Composable
-    get() = if (isSystemInDarkTheme()) darkBottomBar else lightBottomBar
+    get() = if (isSystemInDarkTheme()) darkPrimary else lightPrimary
 val ColorScheme.bottomBarSelectedItemColor: Color
     @Composable
-    get() =  itemBottomBarSelected
+    get() = itemBottomBarSelected
 
 val ColorScheme.bottomBarDeSelectedItemColor: Color
     @Composable
-    get() =  itemBottomBarDeSelected
+    get() = itemBottomBarDeSelected
 // endregion BottomBar Color
 
 // region List Item  Color

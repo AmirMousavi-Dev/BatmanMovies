@@ -11,4 +11,13 @@ sealed class Screen(val route : String) {
     object MovieList : Screen(MOVIE_LIST_SCREEN)
     object Favorite : Screen(FAVORITE_SCREEN)
     object MovieDetail : Screen(MOVIE_DETAIL_SCREEN)
+
+    fun withArgs(vararg args : String) : String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
 }
