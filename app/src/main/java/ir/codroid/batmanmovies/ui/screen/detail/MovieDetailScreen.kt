@@ -66,6 +66,7 @@ import ir.codroid.batmanmovies.data.model.MovieDetail
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
 import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.ui.SharedViewModel
+import ir.codroid.batmanmovies.ui.component.ErrorScreen
 import ir.codroid.batmanmovies.ui.component.LoadingCircle
 import ir.codroid.batmanmovies.ui.theme.LightGray
 import ir.codroid.batmanmovies.ui.theme.MediumGray
@@ -87,7 +88,10 @@ fun MovieDetailScreen(
     var loading by remember {
         mutableStateOf(true)
     }
-    val result = viewModel._movieDetail.collectAsState()
+    var error by remember {
+        mutableStateOf(false)
+    }
+    val result = viewModel.movieDetail.collectAsState()
     val similarMovies = viewModel.similarMovie.collectAsState()
     val movie = result.value.data
     val scrollState = rememberLazyListState()
@@ -132,7 +136,11 @@ fun MovieDetailScreen(
                 loading = false
             }
 
-            is NetWorkResult.Error -> {}
+            is NetWorkResult.Error -> {
+                loading = false
+                error = true
+                ErrorScreen(error)
+            }
         }
 
     }

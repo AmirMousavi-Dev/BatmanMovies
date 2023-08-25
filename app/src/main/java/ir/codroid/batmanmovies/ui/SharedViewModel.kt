@@ -5,11 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.codroid.batmanmovies.data.model.Movie
 import ir.codroid.batmanmovies.data.model.MovieDetail
-import ir.codroid.batmanmovies.data.remote.ApiService
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
 import ir.codroid.batmanmovies.data.repository.MovieRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,19 +18,17 @@ import javax.inject.Inject
 class SharedViewModel
 @Inject constructor(
     private val repository: MovieRepository,
-    private val apiService: ApiService,
 ) : ViewModel() {
 
-    val _movieList = MutableStateFlow<NetWorkResult<List<Movie>>>(NetWorkResult.Loading())
+    private val _movieList = MutableStateFlow<NetWorkResult<List<Movie>>>(NetWorkResult.Loading())
     val movieList = _movieList.asStateFlow()
 
-    val _movieDetail = MutableStateFlow<NetWorkResult<MovieDetail>>(NetWorkResult.Loading())
+    private val _movieDetail = MutableStateFlow<NetWorkResult<MovieDetail>>(NetWorkResult.Loading())
     val movieDetail = _movieDetail.asStateFlow()
 
     private val _similarMovie = MutableStateFlow<List<Movie>>(emptyList())
     val similarMovie = _similarMovie.asStateFlow()
 
-    private var job: Job? = null
     fun getMovieList() {
         viewModelScope.launch {
             val movieListLocal = repository.getMovieListLocal()
@@ -73,7 +69,7 @@ class SharedViewModel
                     }
 
                 } catch (e: Exception) {
-
+                    _movieDetail.emit(NetWorkResult.Error(false, e.message.toString()))
 
                 }
 
@@ -96,8 +92,7 @@ class SharedViewModel
     }
 
     private fun insertMovieList(movieList: List<Movie>) {
-        job?.cancel()
-        job = viewModelScope.launch {
+        viewModelScope.launch {
             repository.insertMovieListLocal(movieList)
         }
     }
@@ -108,9 +103,4 @@ class SharedViewModel
         }
     }
 
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
-    }
 }

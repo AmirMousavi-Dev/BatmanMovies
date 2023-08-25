@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.codroid.batmanmovies.navigation.BottomNavigationBar
 import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.navigation.SetupNavigation
+import ir.codroid.batmanmovies.ui.component.ChangeSystemUi
 import ir.codroid.batmanmovies.ui.component.TopAppbar
 import ir.codroid.batmanmovies.ui.theme.BatmanMoviesTheme
 import ir.codroid.batmanmovies.util.Constants.GITHUB_URL
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             BatmanMoviesTheme {
                 navController = rememberAnimatedNavController()
+                ChangeSystemUi(navController)
                 Scaffold(
                     topBar = {
                         TopAppbar(

@@ -21,6 +21,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import ir.codroid.batmanmovies.data.remote.NetWorkResult
 import ir.codroid.batmanmovies.navigation.Screen
 import ir.codroid.batmanmovies.ui.SharedViewModel
+import ir.codroid.batmanmovies.ui.component.ErrorScreen
 import ir.codroid.batmanmovies.ui.component.LoadingCircle
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -37,11 +38,16 @@ fun MovieListScreen(
     var loading by remember {
         mutableStateOf(true)
     }
-    val result = viewModel._movieList.collectAsState()
+    var error by remember {
+        mutableStateOf(false)
+    }
+    val result = viewModel.movieList.collectAsState()
     val movies = result.value.data
 
     when (result.value) {
         is NetWorkResult.Loading -> {
+            loading = true
+            error = false
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -58,12 +64,16 @@ fun MovieListScreen(
                     navController.navigate(Screen.MovieDetail.withArgs(imdbID))
                 }
                 loading = false
+                error = false
             }
 
         }
 
         is NetWorkResult.Error -> {
-            Log.e("3121", "error")
+
+            loading = false
+            error = true
+            ErrorScreen(isShow = error)
 
         }
     }
